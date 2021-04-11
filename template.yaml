@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Notify Teams every day of AWS billing
+
+Globals:
+  Function:
+    Timeout: 10
+
+Parameters:
+  TeamsHookUrl:
+    Type: String
+    Default: https://xxx
+    Description: Incoming webhook url of teams connector
+
+
+Resources:
+  # https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
+  # https://docs.aws.amazon.com/ja_jp/step-functions/latest/dg/tutorial-lambda-state-machine-cloudformation.html
+  BillingIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "NotifyTeamsToBillingLambdaPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                  - "ce:GetCostAndUsage"
+                  - "secretsmanager:GetSecretValue"
+                Resource: "*"
+
+  NotifyTeamsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cost_report/
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      Environment:
+        Variables:
+          TEAMS_WEBHOOK_URL: !Ref TeamsHookUrl
+      Role: !GetAtt BillingIamRole.Arn
+      Events:
+        NotifyTeams:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 0 * * ? *) # 日本時間AM9時に毎日通知する
+Outputs:
+  NotityTeamsFunction:
+    Description: "Notify Teams Lambda Function ARN"
+    Value: !GetAtt NotifyTeamsFunction.Arn
+
+  NotifyTeamsFunctionIamRole:
+    Description: "Implicit IAM Role created for Notify Teams function"
+    Value: !GetAtt BillingIamRole.Arn
