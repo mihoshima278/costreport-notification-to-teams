@@ -9,6 +9,23 @@ Parameters:
     Type: String
     Default: https://xxx
     Description: Incoming webhook url of teams connector
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: costreport-notification-to-teams
+    Description: Every day at 9:00 AM, notify Teams Incoming Webhook of the AWS usage
+      fees (currently only ap-northeast-1) for the current month that have been incurred
+      up to the previous day.
+    Author: mihoshima278
+    SpdxLicenseId: MIT
+    LicenseUrl: s3://notify-teams-aws-billing/0264c6368304e03b9dc24f2116a426db
+    ReadmeUrl: s3://notify-teams-aws-billing/0f510b6c54a96d83874600716f0792c8
+    Labels:
+    - teams
+    - lambda
+    - cost
+    HomePageUrl: https://github.com/mihoshima278/costreport-notification-to-teams
+    SemanticVersion: 0.0.2
+    SourceCodeUrl: https://github.com/mihoshima278/costreport-notification-to-teams
 Resources:
   BillingIamRole:
     Type: AWS::IAM::Role

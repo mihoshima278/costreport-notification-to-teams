@@ -9,7 +9,7 @@
 
 ### 2.いずれかの方法でアプリケーションをデプロイ
 1. AWS Serverless Application Repositoryでデプロイ (推奨)
-* アプリケーションページ から
+* [アプリケーションページ](https://ap-northeast-1.console.aws.amazon.com/lambda/home#/create/app?applicationId=arn:aws:serverlessrepo:ap-northeast-1:521635626865:applications/costreport-notification-to-teams) から
 * TeamsHookUrl に Teams Incoming Webhookを作成 で作成されたWebhookのURLをペーストして デプロイ を押す
 
 2. AWS CloudFormationからデプロイ

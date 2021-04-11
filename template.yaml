@@ -17,12 +17,12 @@ Metadata:
     Name: costreport-notification-to-teams
     Description: Every day at 9:00 AM, notify Teams Incoming Webhook of the AWS usage fees (currently only ap-northeast-1) for the current month that have been incurred up to the previous day.
     Author: mihoshima278
-    SpdxLicenseId: MIT License
-    LicenseUrl: LICENSE.txt
+    SpdxLicenseId: MIT
+    LicenseUrl: license.txt
     ReadmeUrl: README.md
-    Labels: ['teams']
+    Labels: ['teams','lambda','cost']
     HomePageUrl: https://github.com/mihoshima278/costreport-notification-to-teams
-    SemanticVersion: 0.0.1
+    SemanticVersion: 0.0.2
     SourceCodeUrl: https://github.com/mihoshima278/costreport-notification-to-teams
 
 
